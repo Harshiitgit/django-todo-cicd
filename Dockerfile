@@ -1,9 +1,10 @@
-FROM python:3.12
-RUN pip install django==6.0.4
+FROM python:3.10-slim
+
+WORKDIR /app
 
 COPY . .
 
-RUN python manage.py migrate
+RUN pip install django==2.2.7 gunicorn
 
-CMD ["python","manage.py","runserver","0.0.0.0:8001"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "todoApp.wsgi:application"]
 
